@@ -74,11 +74,11 @@ type: **boolean**
 
 ####Browser Version
 type: **number**
-- `$.os.major`
-- `$.os.minor`
-- `$.os.patch`
+- `$.browser.major`
+- `$.browser.minor`
+- `$.browser.patch`
 type: **string**
-- `$.os.version` (full version string)
+- `$.browser.version` (full version string)
 
 ###`$.orientation`
 `detect` also handles binding to `orientationchange`, and updates the CSS classes and properties 
