@@ -1,35 +1,35 @@
-#Detect
+#Deckard
 Device OS and Browser detection.
 
 ##Installation
 Installation is simple via bower.
 
 ```
-bower install https://github.com/mobify/detect.git --save
+bower install https://github.com/mobify/deckard.git --save
 ```
 ##Configure with Require.js
 Add the following configuration to your require.js config file.
 
 ```
 ...
-'detect': 'bower_components/detect/dist/detect'
+'deckard': 'bower_components/deckard/dist/deckard'
 ...
 ```
-##Bring detect in via Require.js
+##Bring deckard in via Require.js
 
 ```
 define([ 
 	'$', 
-	'detect'
+	'deckard'
 ], 
 function($) {
 	...
 });
 ```
 
-Bringing in `detect` parses the User Agent string, and populates a number of properties related to the device. Additionally, `detect` adds relevant classes to the HTML element, allowing you to target fixes via CSS.
+Bringing in `deckard` parses the User Agent string, and populates a number of properties related to the device. Additionally, `deckard` adds relevant classes to the HTML element, allowing you to target fixes via CSS.
 
-Detect runs automatically on your page if included (either via require.js or as a `<script>`).
+Deckard runs automatically on your page if included (either via require.js or as a `<script>`).
 
 ###`$.os`
 
@@ -81,7 +81,7 @@ type: **string**
 - `$.browser.version` (full version string)
 
 ###`$.orientation`
-`detect` also handles binding to `orientationchange`, and updates the CSS classes and properties 
+`deckard` also handles binding to `orientationchange`, and updates the CSS classes and properties
 appripriately if that event is triggered.
 
 type: **boolean**

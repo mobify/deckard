@@ -75,7 +75,7 @@ define([
         }
     };
 
-    describe('Detect tests', function() {
+    describe('Deckard tests', function() {
         beforeEach(function() {
             $html.removeAttr('class');
         });
