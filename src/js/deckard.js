@@ -28,7 +28,7 @@ define([
     // This ratio is less than 1 because it accommodates when keyboards are activated.
     var compareRatio = 0.8;
 
-    /*jshint maxstatements:102 */
+    /*jshint maxstatements:120 */
     var detect = function(ua) {
         var browserVersion;
         var osVersion;
