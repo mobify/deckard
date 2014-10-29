@@ -1,6 +1,8 @@
 #Deckard
 Device OS and Browser detection.
 
+![](http://media.tumblr.com/e0da98f48bf70afdc322f08794a70520/tumblr_inline_n20w2wbjJQ1qzrkdh.gif)
+
 ##Installation
 Installation is simple via bower.
 

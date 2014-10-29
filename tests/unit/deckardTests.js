@@ -1,6 +1,6 @@
 define([
     '$',
-    'src/js/detect'
+    'src/js/deckard'
 ], function($) {
     var $html = $('html');
 
