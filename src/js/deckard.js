@@ -70,17 +70,20 @@ define([
         if (iphone && !ipod) {
             os.ios = os.iphone = true;
             osVersion = iphone[2].replace(/_/g, '.');
-            classes.push('ios iphone');
+            classes.push('ios');
+            classes.push('iphone');
         }
         if (ipad) {
             os.ios = os.ipad = true;
             osVersion = ipad[2].replace(/_/g, '.');
-            classes.push('ios ipad');
+            classes.push('ios');
+            classes.push('ipad');
         }
         if (ipod) {
             os.ios = os.ipod = true;
             osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-            classes.push('ios ipod');
+            classes.push('ios');
+            classes.push('ipod');
         }
         if (windowsphone) {
             os.windowsphone = true;
@@ -91,11 +94,12 @@ define([
             os.blackberry = true;
             osVersion = blackberry[2];
             classes.push('blackberry');
+            classes.push('bb10');
         }
         if (bb10) {
             os.bb10 = true;
             osVersion = bb10[2];
-            classes.push('blackberry bb10');
+            classes.push('blackberry');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
@@ -142,9 +146,18 @@ define([
                 browserVersion = safari[1];
             }
         }
+
         if (webview) {
             browser.webview = true;
             classes.push('webview');
+        }
+
+        os = $.extend(true, os, parseVersion(osVersion));
+        browser = $.extend(true, browser, parseVersion(browserVersion));
+
+        if (android && !chrome && webkit && browser.version < 537) {
+            browser.native = true;
+            classes.push('android-browser');
         }
 
         os.tablet = !!(ipad || playbook || kindle || (android && !ua.match(/Mobile/)) ||
@@ -158,8 +171,6 @@ define([
         os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
         os.retina && classes.push('retina');
 
-        os = $.extend(true, os, parseVersion(osVersion));
-        browser = $.extend(true, browser, parseVersion(browserVersion));
 
         classes.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
 
@@ -169,7 +180,7 @@ define([
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
-        $html.addClass('x-orientation-changing');
+        $html.addClass('orientation-changing');
 
         if (isLandscape) {
             $html.removeClass('portrait').addClass('landscape');
@@ -181,7 +192,7 @@ define([
             orientation.portrait = true;
         }
 
-        $html.removeClass('x-orientation-changing');
+        $html.removeClass('orientation-changing');
     };
 
     $window
