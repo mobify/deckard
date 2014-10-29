@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         },
         build: {
             files: {
-                'dist/detect.min.js': 'src/js/deckard.js'
+                'dist/deckard.min.js': 'src/js/deckard.js'
             }
         }
     };
