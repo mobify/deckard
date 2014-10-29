@@ -21,13 +21,6 @@ define([
         };
     };
 
-    var MOBILE = 'mobile';
-    var TABLET = 'tablet';
-    var DESKTOP = 'desktop';
-    var PORTRAIT = 'portrait';
-    var LANDSCAPE = 'landscape';
-    var ORIENTATION_CHANGE = 'orientationchange';
-
     var ua = window.navigator.userAgent;
     var $window = $(window);
     var $html = $('html');
@@ -164,7 +157,7 @@ define([
         os = $.extend(true, os, parseVersion(osVersion));
         browser = $.extend(true, browser, parseVersion(browserVersion));
 
-        classes.push(os.tablet ? TABLET : os.mobile ? MOBILE : DESKTOP);
+        classes.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
 
         $html.addClass(classes.join(' '));
     };
@@ -173,16 +166,18 @@ define([
         var isLandscape = ($window.height() / $window.width()) < 1;
 
         if (isLandscape) {
-            $html.removeClass(PORTRAIT).addClass(LANDSCAPE);
-            this.orientation = LANDSCAPE;
+            $html.removeClass('portrait').addClass('landscape');
+            this.orientation.landscape = true;
+            this.orientation.portrait = false;
         } else {
-            $html.removeClass(LANDSCAPE).addClass(PORTRAIT);
-            this.orientation = PORTRAIT;
+            $html.removeClass('landscape').addClass('portrait');
+            this.orientation.landscape = false;
+            this.orientation.portrait = true;
         }
     };
 
     $window
-        .on(ORIENTATION_CHANGE, function() {
+        .on('orientationchange', function() {
             orientation.call($);
         });
 

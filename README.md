@@ -18,7 +18,7 @@ Add the following configuration to your require.js config file.
 ##Bring detect in via Require.js
 
 ```
-define([
+define([ 
 	'$', 
 	'detect'
 ], 
@@ -27,16 +27,20 @@ function($) {
 });
 ```
 
-Bringing in `detect` parses the User Agent string, and populates a number of properties related to the device. Detect runs automatically on your page if required in via require.js.
+Bringing in `detect` parses the User Agent string, and populates a number of properties related to the device. Additionally, `detect` adds relevant classes to the HTML element, allowing you to target fixes via CSS.
 
-##`$.os`
+Detect runs automatically on your page if included (either via require.js or as a `<script>`).
 
-###Platform
+###`$.os`
+
+####Platform
+type: **boolean**
 - `$.os.desktop`
 - `$.os.mobile`
 - `$.os.tablet`
 
-###OS Name
+####OS Name
+type: **boolean**
 - `$.os.ios`
 - `$.os.android`
 - `$.os.windowsphone`
@@ -45,15 +49,21 @@ Bringing in `detect` parses the User Agent string, and populates a number of pro
 - `$.os.rimtabletos`
 - `$.os.kindle`
 
-###OS Version
+####OS Version
+type: **number**
 - `$.os.major`
 - `$.os.minor`
 - `$.os.patch`
+type: **string**
 - `$.os.version` (full version string)
 
-##`$.browser`
+###`$.retina`
+type: **boolean**
 
-###Browser Name
+###`$.browser`
+
+####Browser Name
+type: **boolean**
 - `$.browser.safari`
 - `$.browser.chrome`
 - `$.browser.firefox`
@@ -62,11 +72,21 @@ Bringing in `detect` parses the User Agent string, and populates a number of pro
 - `$.browser.silk`
 - `$.browser.webview`
 
-###Browser Version
+####Browser Version
+type: **number**
 - `$.os.major`
 - `$.os.minor`
 - `$.os.patch`
+type: **string**
 - `$.os.version` (full version string)
+
+###`$.orientation`
+`detect` also handles binding to `orientationchange`, and updates the CSS classes and properties 
+appripriately if that event is triggered.
+
+type: **boolean**
+- `$.orientation.landscape`
+- `$.orientation.portrait`
 
 You can then target a particular OS and Browser:
 
@@ -75,3 +95,4 @@ if ($.os.android && $.os.major < 4 && $.browser.chrome) {
 	// do stuff specific to android less than version 4 on chrome
 }
 ```
+
