@@ -4,7 +4,7 @@
     "type" : "git",
     "url" : "https://github.com/mobify/detect"
   },
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Device OS and Version detection",
   "devDependencies": {
     "chai": "~1.9.0",

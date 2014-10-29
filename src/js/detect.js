@@ -1,6 +1,26 @@
+/**
+ * Device OS and Browser detection
+ *
+ * Based on Zepto's detect.js
+ * Zepto.js
+ * (c) 2010-2014 Thomas Fuchs
+ */
 define([
     '$'
 ], function($) {
+    var parseVersion = function(version) {
+        if (!version) return {};
+
+        var parts = version.split('.');
+
+        return {
+            version: version,
+            major: parts[0] || 0,
+            minor: parts[1] || 0,
+            patch: parts[2] || 0
+        };
+    };
+
     var MOBILE = 'mobile';
     var TABLET = 'tablet';
     var DESKTOP = 'desktop';
@@ -10,10 +30,12 @@ define([
 
     var ua = window.navigator.userAgent;
     var $window = $(window);
-    var $body = $('body');
+    var $html = $('html');
 
     /*jshint maxstatements:100 */
     var detect = function(ua) {
+        var browserVersion;
+        var osVersion;
         var os = this.os = {};
         var browser = this.browser = {};
         var classes = [];
@@ -39,48 +61,48 @@ define([
         browser.webkit = !!webkit;
 
         if (browser.webkit) {
-            browser.version = webkit[1];
+            browserVersion = webkit[1];
             classes.push('webkit');
         }
 
         if (android) {
             os.android = true;
-            os.version = android[2];
+            osVersion = android[2];
             classes.push('android');
         }
         if (iphone && !ipod) {
             os.ios = os.iphone = true;
-            os.version = iphone[2].replace(/_/g, '.');
+            osVersion = iphone[2].replace(/_/g, '.');
             classes.push('ios iphone');
         }
         if (ipad) {
             os.ios = os.ipad = true;
-            os.version = ipad[2].replace(/_/g, '.');
+            osVersion = ipad[2].replace(/_/g, '.');
             classes.push('ios ipad');
         }
         if (ipod) {
             os.ios = os.ipod = true;
-            os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
+            osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
             classes.push('ios ipod');
         }
         if (windowsphone) {
             os.windowsphone = true;
-            os.version = windowsphone[1];
+            osVersion = windowsphone[1];
             classes.push('windows');
         }
         if (blackberry) {
             os.blackberry = true;
-            os.version = blackberry[2];
+            osVersion = blackberry[2];
             classes.push('blackberry');
         }
         if (bb10) {
             os.bb10 = true;
-            os.version = bb10[2];
+            osVersion = bb10[2];
             classes.push('blackberry bb10');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
-            os.version = rimtabletos[2];
+            osVersion = rimtabletos[2];
             classes.push('blackberry');
         }
         if (playbook) {
@@ -89,12 +111,12 @@ define([
         }
         if (kindle) {
             os.kindle = true;
-            os.version = kindle[1];
+            osVersion = kindle[1];
             classes.push('kindle');
         }
         if (silk) {
             browser.silk = true;
-            browser.version = silk[1];
+            browserVersion = silk[1];
             classes.push('silk');
         }
         if (!silk && os.android && ua.match(/Kindle Fire/)) {
@@ -103,24 +125,24 @@ define([
         }
         if (chrome) {
             browser.chrome = true;
-            browser.version = chrome[1];
+            browserVersion = chrome[1];
             classes.push('chrome');
         }
         if (firefox) {
             browser.firefox = true;
-            browser.version = firefox[1];
+            browserVersion = firefox[1];
             classes.push('firefox');
         }
         if (ie) {
             browser.ie = true;
-            browser.version = ie[1];
+            browserVersion = ie[1];
             classes.push('ie');
         }
         if (safari && (osx || os.ios)) {
             browser.safari = true;
             classes.push('safari');
             if (osx) {
-                browser.version = safari[1];
+                browserVersion = safari[1];
             }
         }
         if (webview) {
@@ -129,25 +151,31 @@ define([
         }
 
         os.tablet = !!(ipad || playbook || kindle || (android && !ua.match(/Mobile/)) ||
-            (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) && ua.match(/Touch/)));
+        (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) && ua.match(/Touch/)));
 
         os.mobile = !!(!os.tablet && !os.ipod && (android || iphone || blackberry || bb10 ||
-            (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) ||
-            (firefox && ua.match(/Mobile/)) || (ie && ua.match(/Touch/))));
+        (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) ||
+        (firefox && ua.match(/Mobile/)) || (ie && ua.match(/Touch/))));
+
+        os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
+        os.retina && classes.push('retina');
+
+        os = $.extend(true, os, parseVersion(osVersion));
+        browser = $.extend(true, browser, parseVersion(browserVersion));
 
         classes.push(os.tablet ? TABLET : os.mobile ? MOBILE : DESKTOP);
 
-        $body.addClass(classes.join(' '));
+        $html.addClass(classes.join(' '));
     };
 
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < 1;
 
         if (isLandscape) {
-            $body.removeClass(PORTRAIT).addClass(LANDSCAPE);
+            $html.removeClass(PORTRAIT).addClass(LANDSCAPE);
             this.orientation = LANDSCAPE;
         } else {
-            $body.removeClass(LANDSCAPE).addClass(PORTRAIT);
+            $html.removeClass(LANDSCAPE).addClass(PORTRAIT);
             this.orientation = PORTRAIT;
         }
     };

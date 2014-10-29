@@ -2,7 +2,7 @@ define([
     '$',
     'src/js/detect'
 ], function($) {
-    var $body = $('body');
+    var $html = $('html');
 
     var UA = {
         Android_1_5: 'Mozilla/5.0 (Linux; U; Android 1.5; de-; HTC Magic Build/PLAT-RC33) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
@@ -71,13 +71,13 @@ define([
         classes = classes.split(' ');
 
         for (var i = 0; i < classes.length; i++) {
-            assert.isTrue($body.hasClass(classes[i]));
+            assert.isTrue($html.hasClass(classes[i]));
         }
     };
 
     describe('Detect tests', function() {
         beforeEach(function() {
-            $body.removeAttr('class');
+            $html.removeAttr('class');
         });
 
         describe('Operating Systems/Devices', function() {
@@ -719,32 +719,6 @@ define([
                     })
                 });
             });
-        });
-
-        describe('Orientation', function() {
-            it('checks portrait', function() {
-                $.__orientation.call($);
-
-                //assert.isTrue($body.hasClass('portrait'));
-                assert.equal($.orientation, 'portrait');
-            });
-
-            //
-            //it('checks landscape', function() {
-            //    var $window = $(window);
-            //    var width = $window.width();
-            //    var height = $window.height();
-            //
-            //    window.innerWidth = height;
-            //    window.innerHeight = width;
-            //
-            //    $.__orientation.call($);
-            //
-            //    assert.isTrue($body.hasClass('landscape'));
-            //
-            //    window.innerWidth = width;
-            //    window.innerHeight = height;
-            //});
         });
     });
 });
