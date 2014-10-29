@@ -94,12 +94,13 @@ define([
             os.blackberry = true;
             osVersion = blackberry[2];
             classes.push('blackberry');
-            classes.push('bb10');
+
         }
         if (bb10) {
             os.bb10 = true;
             osVersion = bb10[2];
             classes.push('blackberry');
+            classes.push('bb10');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
@@ -155,8 +156,8 @@ define([
         os = $.extend(true, os, parseVersion(osVersion));
         browser = $.extend(true, browser, parseVersion(browserVersion));
 
-        if (android && !chrome && webkit && browser.version < 537) {
-            browser.native = true;
+        if (os.android && !browser.chrome && browser.webkit && browser.major < 537) {
+            browser.androidBrowser = true;
             classes.push('android-browser');
         }
 

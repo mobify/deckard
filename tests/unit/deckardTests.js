@@ -10,6 +10,7 @@ define([
         Android_2_3: 'Mozilla/5.0 (Linux; U; Android 2.3.7; en-us; Nexus One Build/GRK39F) AppleWebKit/533.1 (KTHML, like Gecko) Version/4.0 Mobile Safari/533.1',
         Android_4_1_1: 'Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus Build/JRO03O) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19',
         Android_4_1_1_Tablet: 'Mozilla/5.0 (Linux; Android 4.1.1; Nexus 7 Build/JRO03S) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Safari/535.19',
+        Android_4_0_3_native: 'Mozilla/5.0 (Linux; U; Android 4.0.3; de-ch; HTC Sensation Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
         Android_4_3: 'Mozilla/5.0 (Linux; Android 4.3; Nexus 4 Build/JWR66Y) AppleWebKit/537.36 (KTHML, like Gecko) Chrome/29.0.1547.59 Mobile Safari/537.36',
 
         iOS_3_0_iPhone: 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/1A542a Safari/419.3',
@@ -151,6 +152,23 @@ define([
                         assert.isFalse(!!browser.safari);
 
                         hasClasses('webkit android tablet');
+
+                        done();
+                    })
+                });
+
+                it('4.0.3 native browser', function(done) {
+                    detect(UA.Android_4_0_3_native, function(os, browser) {
+                        assert.isTrue(os.android);
+                        assert.isTrue(browser.webkit);
+                        assert.isFalse(!!os.ios);
+                        assert.equal('4.0.3', os.version);
+                        assert.isTrue(os.mobile);
+                        assert.isFalse(!!os.iphone);
+                        assert.isTrue(browser.androidBrowser);
+                        assert.isFalse(!!browser.safari);
+
+                        hasClasses('webkit android android-browser mobile');
 
                         done();
                     })
