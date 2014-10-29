@@ -5,7 +5,7 @@ Device OS and Browser detection.
 Installation is simple via bower.
 
 ```
-bower install detect --save
+bower install https://github.com/mobify/detect.git --save
 ```
 ##Configure with Require.js
 Add the following configuration to your require.js config file.
