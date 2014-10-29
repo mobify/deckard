@@ -25,12 +25,13 @@ define([
     var $window = $(window);
     var $html = $('html');
 
-    /*jshint maxstatements:100 */
+    /*jshint maxstatements:102 */
     var detect = function(ua) {
         var browserVersion;
         var osVersion;
         var os = this.os = {};
         var browser = this.browser = {};
+        var orientation = this.orientation = {};
         var classes = [];
         var webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/);
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
@@ -167,12 +168,12 @@ define([
 
         if (isLandscape) {
             $html.removeClass('portrait').addClass('landscape');
-            this.orientation.landscape = true;
-            this.orientation.portrait = false;
+            orientation.landscape = true;
+            orientation.portrait = false;
         } else {
             $html.removeClass('landscape').addClass('portrait');
-            this.orientation.landscape = false;
-            this.orientation.portrait = true;
+            orientation.landscape = false;
+            orientation.portrait = true;
         }
     };
 
