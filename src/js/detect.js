@@ -24,6 +24,9 @@ define([
     var ua = window.navigator.userAgent;
     var $window = $(window);
     var $html = $('html');
+    var orientationEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+    // This ratio is less than 1 because it accommodates when keyboards are activated.
+    var compareRatio = 0.8;
 
     /*jshint maxstatements:102 */
     var detect = function(ua) {
@@ -164,7 +167,9 @@ define([
     };
 
     var orientation = function() {
-        var isLandscape = ($window.height() / $window.width()) < 1;
+        var isLandscape = ($window.height() / $window.width()) < compareRatio;
+
+        $html.addClass('x-orientation-changing');
 
         if (isLandscape) {
             $html.removeClass('portrait').addClass('landscape');
@@ -175,10 +180,12 @@ define([
             orientation.landscape = false;
             orientation.portrait = true;
         }
+
+        $html.removeClass('x-orientation-changing');
     };
 
     $window
-        .on('orientationchange', function() {
+        .on(orientationEvent, function() {
             orientation.call($);
         });
 
