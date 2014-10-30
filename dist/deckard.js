@@ -15,9 +15,9 @@ define([
 
         return {
             version: version,
-            major: parts[0] || 0,
-            minor: parts[1] || 0,
-            patch: parts[2] || 0
+            major: parseInt(parts[0] || 0),
+            minor: parseInt(parts[1] || 0),
+            patch: parseInt(parts[2] || 0)
         };
     };
 
