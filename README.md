@@ -12,14 +12,14 @@ bower install https://github.com/mobify/deckard.git --save
 ##Configure with Require.js
 Add the following configuration to your require.js config file.
 
-```
+```js
 ...
 'deckard': 'bower_components/deckard/dist/deckard'
 ...
 ```
 ##Bring deckard in via Require.js
 
-```
+```js
 define([ 
 	'$', 
 	'deckard'
@@ -92,7 +92,7 @@ type: **boolean**
 
 You can then target a particular OS and Browser:
 
-```
+```js
 if ($.os.android && $.os.major < 4 && $.browser.chrome) {
 	// do stuff specific to android less than version 4 on chrome
 }
