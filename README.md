@@ -84,7 +84,7 @@ type: **string**
 
 ###`$.orientation`
 `deckard` also handles binding to `orientationchange`, and updates the CSS classes and properties
-appripriately if that event is triggered.
+appropriately if that event is triggered.
 
 type: **boolean**
 - `$.orientation.landscape`
