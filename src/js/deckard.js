@@ -5,9 +5,16 @@
  * Zepto.js
  * (c) 2010-2014 Thomas Fuchs
  */
-define([
-    '$'
-], function($) {
+(function(factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            '$'
+        ], factory);
+    } else {
+        var framework = window.Zepto || window.jQuery;
+        factory(framework);
+    }
+}(function($) {
     var parseVersion = function(version) {
         if (!version) return {};
 
@@ -202,4 +209,6 @@ define([
 
     $.__detect = detect;
     $.__orientation = orientation;
-});
+
+    return $;
+}));
