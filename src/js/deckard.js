@@ -181,8 +181,6 @@ define([
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
-        $html.addClass('orientation-changing');
-
         if (isLandscape) {
             $html.removeClass('portrait').addClass('landscape');
             orientation.landscape = true;
@@ -192,8 +190,6 @@ define([
             orientation.landscape = false;
             orientation.portrait = true;
         }
-
-        $html.removeClass('orientation-changing');
     };
 
     $window
