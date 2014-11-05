@@ -1,8 +1,10 @@
 /**
  * Device OS and Browser detection
  *
- * Based on Zepto's detect.js
- * Zepto.js
+ * Based on:
+ *
+ * Zepto detect.js
+ * https://github.com/madrobby/zepto/blob/master/src/detect.js
  * (c) 2010-2014 Thomas Fuchs
  */
 (function(factory) {
@@ -41,7 +43,7 @@
         var osVersion;
         var os = this.os = {};
         var browser = this.browser = {};
-        var orientation = this.orientation = {};
+        this.orientation = {};
         var classes = [];
         var webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/);
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
@@ -101,7 +103,6 @@
             os.blackberry = true;
             osVersion = blackberry[2];
             classes.push('blackberry');
-
         }
         if (bb10) {
             os.bb10 = true;
@@ -188,15 +189,10 @@
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
-        if (isLandscape) {
-            $html.removeClass('portrait').addClass('landscape');
-            orientation.landscape = true;
-            orientation.portrait = false;
-        } else {
-            $html.removeClass('landscape').addClass('portrait');
-            orientation.landscape = false;
-            orientation.portrait = true;
-        }
+        $html.toggleClass('portrait', !isLandscape);
+        $html.toggleClass('landscape', isLandscape);
+        this.orientation.landscape = isLandscape;
+        this.orientation.portrait = !isLandscape;
     };
 
     $window

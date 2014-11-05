@@ -38,6 +38,7 @@ module.exports = function(grunt) {
     npmTasks.forEach(function(taskName) {
         if (!grunt.task._tasks[taskName]) {
             grunt.loadNpmTasks(taskName);
+            grunt.loadNpmTasks(taskName);
         }
     });
 
