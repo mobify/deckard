@@ -56,6 +56,7 @@ type: **number**
 - `$.os.major`
 - `$.os.minor`
 - `$.os.patch`
+
 type: **string**
 - `$.os.version` (full version string)
 
@@ -79,6 +80,7 @@ type: **number**
 - `$.browser.major`
 - `$.browser.minor`
 - `$.browser.patch`
+
 type: **string**
 - `$.browser.version` (full version string)
 
