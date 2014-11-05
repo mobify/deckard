@@ -31,6 +31,8 @@
     };
 
     var ua = window.navigator.userAgent;
+    var device;
+    var currentOrientation;
     var $window = $(window);
     var $html = $('html');
     var orientationEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
@@ -41,10 +43,10 @@
     var detect = function(ua) {
         var browserVersion;
         var osVersion;
-        var os = this.os = {};
-        var browser = this.browser = {};
-        this.orientation = {};
+        var os = {};
+        var browser = {};
         var classes = [];
+
         var webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/);
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
         var osx = !!ua.match(/\(Macintosh\; Intel /);
@@ -180,31 +182,51 @@
         os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
         os.retina && classes.push('retina');
 
-
         classes.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
 
-        $html.addClass(classes.join(' '));
+        return {
+            os: os,
+            browser: browser,
+            classes: classes
+        };
     };
 
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
-        $html.toggleClass('portrait', !isLandscape);
-        $html.toggleClass('landscape', isLandscape);
-        this.orientation.landscape = isLandscape;
-        this.orientation.portrait = !isLandscape;
+        return {
+            orientation: {
+                landscape: isLandscape,
+                portrait: !isLandscape
+            }
+        };
+    };
+
+    var addClasses = function(device, orientation) {
+        device.classes.push(orientation.landscape ? 'landscape' : 'portrait');
+        $html.addClass(device.classes.join(' '));
     };
 
     $window
         .on(orientationEvent, function() {
-            orientation.call($);
+            $.extend($, orientation());
+            $html.toggleClass('portrait landscape');
         });
 
-    detect.call($, ua);
-    orientation.call($);
+    device = detect(ua);
+    currentOrientation = orientation();
 
-    $.__detect = detect;
-    $.__orientation = orientation;
+    addClasses(device, currentOrientation.orientation);
+
+    // bind os, browser, and orientation to $ as top-level properties
+    $.extend($, { os: device.os, browser: device.browser }, currentOrientation);
+
+    // expose for unit testing
+    $.__deckard = {
+        detect: detect,
+        orientation: orientation,
+        addClasses: addClasses
+    };
 
     return $;
 }));

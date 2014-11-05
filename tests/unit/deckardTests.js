@@ -63,9 +63,11 @@ define([
     };
 
     var detect = function(ua, callback) {
-        var obj = {};
-        $.__detect.call(obj, ua);
-        callback.call(null, obj.os, obj.browser);
+        var detect = $.__deckard.detect(ua);
+        var orientation =  $.__deckard.orientation();
+        $.__deckard.addClasses(detect, orientation.orientation);
+
+        callback.call(null, detect.os, detect.browser);
     };
 
     var hasClasses = function(classes) {
