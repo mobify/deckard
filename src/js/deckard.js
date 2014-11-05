@@ -45,7 +45,7 @@
         var osVersion;
         var os = {};
         var browser = {};
-        var classes = [];
+        var cssClasses = [];
 
         var webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/);
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
@@ -70,89 +70,89 @@
 
         if (browser.webkit) {
             browserVersion = webkit[1];
-            classes.push('webkit');
+            cssClasses.push('webkit');
         }
 
         if (android) {
             os.android = true;
             osVersion = android[2];
-            classes.push('android');
+            cssClasses.push('android');
         }
         if (iphone && !ipod) {
             os.ios = os.iphone = true;
             osVersion = iphone[2].replace(/_/g, '.');
-            classes.push('ios');
-            classes.push('iphone');
+            cssClasses.push('ios');
+            cssClasses.push('iphone');
         }
         if (ipad) {
             os.ios = os.ipad = true;
             osVersion = ipad[2].replace(/_/g, '.');
-            classes.push('ios');
-            classes.push('ipad');
+            cssClasses.push('ios');
+            cssClasses.push('ipad');
         }
         if (ipod) {
             os.ios = os.ipod = true;
             osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-            classes.push('ios');
-            classes.push('ipod');
+            cssClasses.push('ios');
+            cssClasses.push('ipod');
         }
         if (windowsphone) {
             os.windowsphone = true;
             osVersion = windowsphone[1];
-            classes.push('windows');
+            cssClasses.push('windows');
         }
         if (blackberry) {
             os.blackberry = true;
             osVersion = blackberry[2];
-            classes.push('blackberry');
+            cssClasses.push('blackberry');
         }
         if (bb10) {
             os.bb10 = true;
             osVersion = bb10[2];
-            classes.push('blackberry');
-            classes.push('bb10');
+            cssClasses.push('blackberry');
+            cssClasses.push('bb10');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
             osVersion = rimtabletos[2];
-            classes.push('blackberry');
+            cssClasses.push('blackberry');
         }
         if (playbook) {
             browser.playbook = true;
-            classes.push('playbook');
+            cssClasses.push('playbook');
         }
         if (kindle) {
             os.kindle = true;
             osVersion = kindle[1];
-            classes.push('kindle');
+            cssClasses.push('kindle');
         }
         if (silk) {
             browser.silk = true;
             browserVersion = silk[1];
-            classes.push('silk');
+            cssClasses.push('silk');
         }
         if (!silk && os.android && ua.match(/Kindle Fire/)) {
             browser.silk = true;
-            classes.push('silk');
+            cssClasses.push('silk');
         }
         if (chrome) {
             browser.chrome = true;
             browserVersion = chrome[1];
-            classes.push('chrome');
+            cssClasses.push('chrome');
         }
         if (firefox) {
             browser.firefox = true;
             browserVersion = firefox[1];
-            classes.push('firefox');
+            cssClasses.push('firefox');
         }
         if (ie) {
             browser.ie = true;
             browserVersion = ie[1];
-            classes.push('ie');
+            cssClasses.push('ie');
         }
         if (safari && (osx || os.ios)) {
             browser.safari = true;
-            classes.push('safari');
+            cssClasses.push('safari');
             if (osx) {
                 browserVersion = safari[1];
             }
@@ -160,7 +160,7 @@
 
         if (webview) {
             browser.webview = true;
-            classes.push('webview');
+            cssClasses.push('webview');
         }
 
         os = $.extend(true, os, parseVersion(osVersion));
@@ -168,7 +168,7 @@
 
         if (os.android && !browser.chrome && browser.webkit && browser.major < 537) {
             browser.androidBrowser = true;
-            classes.push('android-browser');
+            cssClasses.push('android-browser');
         }
 
         os.tablet = !!(ipad || playbook || kindle || (android && !ua.match(/Mobile/)) ||
@@ -180,14 +180,14 @@
 
         // http://stackoverflow.com/questions/19689715/what-is-the-best-way-to-detect-retina-support-on-a-device-using-javascript
         os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
-        os.retina && classes.push('retina');
+        os.retina && cssClasses.push('retina');
 
-        classes.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
+        cssClasses.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
 
         return {
             os: os,
             browser: browser,
-            classes: classes
+            classes: cssClasses
         };
     };
 
