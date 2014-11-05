@@ -6,11 +6,6 @@
  * Zepto detect.js
  * https://github.com/madrobby/zepto/blob/master/src/detect.js
  * (c) 2010-2014 Thomas Fuchs
- * and
- *
- * device.js
- * http://matthewhudson.me/projects/device.js/
- * (c) 2014 Matthew Hudson
  */
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
