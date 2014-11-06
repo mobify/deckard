@@ -17,7 +17,7 @@
         factory(framework);
     }
 }(function($) {
-    var parseVersion = function(version) {
+    var _parseVersion = function(version) {
         if (!version) return {};
 
         var parts = version.split('.');
@@ -40,7 +40,7 @@
     var compareRatio = 0.8;
 
     /*jshint maxstatements:120 */
-    var detect = function(ua) {
+    var detect = function detect(ua) {
         var browserVersion;
         var osVersion;
         var os = {};
@@ -81,20 +81,17 @@
         if (iphone && !ipod) {
             os.ios = os.iphone = true;
             osVersion = iphone[2].replace(/_/g, '.');
-            cssClasses.push('ios');
-            cssClasses.push('iphone');
+            cssClasses.push('ios', 'iphone');
         }
         if (ipad) {
             os.ios = os.ipad = true;
             osVersion = ipad[2].replace(/_/g, '.');
-            cssClasses.push('ios');
-            cssClasses.push('ipad');
+            cssClasses.push('ios', 'ipad');
         }
         if (ipod) {
             os.ios = os.ipod = true;
             osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-            cssClasses.push('ios');
-            cssClasses.push('ipod');
+            cssClasses.push('ios', 'ipod');
         }
         if (windowsphone) {
             os.windowsphone = true;
@@ -109,8 +106,7 @@
         if (bb10) {
             os.bb10 = true;
             osVersion = bb10[2];
-            cssClasses.push('blackberry');
-            cssClasses.push('bb10');
+            cssClasses.push('blackberry', 'bb10');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
@@ -163,9 +159,11 @@
             cssClasses.push('webview');
         }
 
-        os = $.extend(true, os, parseVersion(osVersion));
-        browser = $.extend(true, browser, parseVersion(browserVersion));
+        os = $.extend(true, os, _parseVersion(osVersion));
+        browser = $.extend(true, browser, _parseVersion(browserVersion));
 
+        // Determines if this browser is the Android browser vs. chrome. It's always the
+        // Android browser if it's webkit and the version is less than 537
         if (os.android && !browser.chrome && browser.webkit && browser.major < 537) {
             browser.androidBrowser = true;
             cssClasses.push('android-browser');
@@ -182,7 +180,7 @@
         os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
         os.retina && cssClasses.push('retina');
 
-        cssClasses.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
+        cssClasses.push(os.tablet ? 'tablet' : (os.mobile ? 'mobile' : 'desktop'));
 
         return {
             os: os,
@@ -191,7 +189,7 @@
         };
     };
 
-    var orientation = function() {
+    var orientation = function orientation() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
         return {
@@ -202,7 +200,7 @@
         };
     };
 
-    var addClasses = function(device, orientation) {
+    var addClasses = function addClasses(device, orientation) {
         device.classes.push(orientation.landscape ? 'landscape' : 'portrait');
         $html.addClass(device.classes.join(' '));
     };
