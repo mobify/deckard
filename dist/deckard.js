@@ -40,7 +40,7 @@
     var compareRatio = 0.8;
 
     /*jshint maxstatements:120 */
-    var detect = function detect(ua) {
+    var detect = function(ua) {
         var browserVersion;
         var osVersion;
         var os = {};
@@ -189,7 +189,7 @@
         };
     };
 
-    var orientation = function orientation() {
+    var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
         return {
@@ -200,7 +200,7 @@
         };
     };
 
-    var addClasses = function addClasses(device, orientation) {
+    var addClasses = function(device, orientation) {
         device.classes.push(orientation.landscape ? 'landscape' : 'portrait');
         $html.addClass(device.classes.join(' '));
     };
