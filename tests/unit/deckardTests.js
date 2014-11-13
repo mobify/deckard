@@ -28,7 +28,6 @@ define([
         iOS_7_0_iPhone_Chrome: 'Mozilla 5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/536.26 (KHTM, like Gecko) CriOS/28.0.1500.17 Mobile/11A4449d Safari/8536.25',
         iOS_8_0_iPhone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
         iOS_8_0_iPad: 'Mozilla/5.0 (iPad; CPU OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
-        iOS_8_1_iPhone_Simulator: 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_10 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B411 Safari/600.1.4',
 
         BlackBerry_6_0_0_141: 'Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en-GB) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.141 Mobile Safari/534.1+',
         PlayBook_1_0_0: 'Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.8+ (KHTML, like Gecko) Version/0.0.1 Safari/534.8+',
@@ -425,23 +424,6 @@ define([
                         assert.isFalse(!!browser.firefox);
 
                         hasClasses('webkit ios ipad safari tablet');
-
-                        done();
-                    })
-                });
-
-                it('iOS 8.1 iPhone Simulator', function(done) {
-                    detect(UA.iOS_8_1_iPhone_Simulator, function(os, browser) {
-                        assert.ok(os.ios);
-                        assert.ok(os.iphone);
-                        assert.equal('8.1', os.version);
-                        assert.isTrue(os.mobile);
-                        assert.isFalse(os.tablet);
-                        assert.isTrue(browser.safari);
-                        assert.isFalse(!!browser.chrome);
-                        assert.isFalse(!!browser.firefox);
-
-                        hasClasses('webkit ios iphone safari mobile');
 
                         done();
                     })
