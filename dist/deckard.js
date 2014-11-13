@@ -1,14 +1,23 @@
 /**
  * Device OS and Browser detection
  *
- * Based on Zepto's detect.js
- * Zepto.js
+ * Based on:
+ *
+ * Zepto detect.js
+ * https://github.com/madrobby/zepto/blob/master/src/detect.js
  * (c) 2010-2014 Thomas Fuchs
  */
-define([
-    '$'
-], function($) {
-    var parseVersion = function(version) {
+(function(factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            '$'
+        ], factory);
+    } else {
+        var framework = window.Zepto || window.jQuery;
+        factory(framework);
+    }
+}(function($) {
+    var _parseVersion = function(version) {
         if (!version) return {};
 
         var parts = version.split('.');
@@ -22,6 +31,8 @@ define([
     };
 
     var ua = window.navigator.userAgent;
+    var device;
+    var currentOrientation;
     var $window = $(window);
     var $html = $('html');
     var orientationEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
@@ -32,10 +43,10 @@ define([
     var detect = function(ua) {
         var browserVersion;
         var osVersion;
-        var os = this.os = {};
-        var browser = this.browser = {};
-        var orientation = this.orientation = {};
-        var classes = [];
+        var os = {};
+        var browser = {};
+        var cssClasses = [];
+
         var webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/);
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
         var osx = !!ua.match(/\(Macintosh\; Intel /);
@@ -59,90 +70,85 @@ define([
 
         if (browser.webkit) {
             browserVersion = webkit[1];
-            classes.push('webkit');
+            cssClasses.push('webkit');
         }
 
         if (android) {
             os.android = true;
             osVersion = android[2];
-            classes.push('android');
+            cssClasses.push('android');
         }
         if (iphone && !ipod) {
             os.ios = os.iphone = true;
             osVersion = iphone[2].replace(/_/g, '.');
-            classes.push('ios');
-            classes.push('iphone');
+            cssClasses.push('ios', 'iphone');
         }
         if (ipad) {
             os.ios = os.ipad = true;
             osVersion = ipad[2].replace(/_/g, '.');
-            classes.push('ios');
-            classes.push('ipad');
+            cssClasses.push('ios', 'ipad');
         }
         if (ipod) {
             os.ios = os.ipod = true;
             osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-            classes.push('ios');
-            classes.push('ipod');
+            cssClasses.push('ios', 'ipod');
         }
         if (windowsphone) {
             os.windowsphone = true;
             osVersion = windowsphone[1];
-            classes.push('windows');
+            cssClasses.push('windows');
         }
         if (blackberry) {
             os.blackberry = true;
             osVersion = blackberry[2];
-            classes.push('blackberry');
-
+            cssClasses.push('blackberry');
         }
         if (bb10) {
             os.bb10 = true;
             osVersion = bb10[2];
-            classes.push('blackberry');
-            classes.push('bb10');
+            cssClasses.push('blackberry', 'bb10');
         }
         if (rimtabletos) {
             os.rimtabletos = true;
             osVersion = rimtabletos[2];
-            classes.push('blackberry');
+            cssClasses.push('blackberry');
         }
         if (playbook) {
             browser.playbook = true;
-            classes.push('playbook');
+            cssClasses.push('playbook');
         }
         if (kindle) {
             os.kindle = true;
             osVersion = kindle[1];
-            classes.push('kindle');
+            cssClasses.push('kindle');
         }
         if (silk) {
             browser.silk = true;
             browserVersion = silk[1];
-            classes.push('silk');
+            cssClasses.push('silk');
         }
         if (!silk && os.android && ua.match(/Kindle Fire/)) {
             browser.silk = true;
-            classes.push('silk');
+            cssClasses.push('silk');
         }
         if (chrome) {
             browser.chrome = true;
             browserVersion = chrome[1];
-            classes.push('chrome');
+            cssClasses.push('chrome');
         }
         if (firefox) {
             browser.firefox = true;
             browserVersion = firefox[1];
-            classes.push('firefox');
+            cssClasses.push('firefox');
         }
         if (ie) {
             browser.ie = true;
             browserVersion = ie[1];
-            classes.push('ie');
+            cssClasses.push('ie');
         }
         if (safari && (osx || os.ios)) {
             browser.safari = true;
-            classes.push('safari');
+            cssClasses.push('safari');
             if (osx) {
                 browserVersion = safari[1];
             }
@@ -150,15 +156,17 @@ define([
 
         if (webview) {
             browser.webview = true;
-            classes.push('webview');
+            cssClasses.push('webview');
         }
 
-        os = $.extend(true, os, parseVersion(osVersion));
-        browser = $.extend(true, browser, parseVersion(browserVersion));
+        os = $.extend(true, os, _parseVersion(osVersion));
+        browser = $.extend(true, browser, _parseVersion(browserVersion));
 
+        // Determines if this browser is the Android browser vs. chrome. It's always the
+        // Android browser if it's webkit and the version is less than 537
         if (os.android && !browser.chrome && browser.webkit && browser.major < 537) {
             browser.androidBrowser = true;
-            classes.push('android-browser');
+            cssClasses.push('android-browser');
         }
 
         os.tablet = !!(ipad || playbook || kindle || (android && !ua.match(/Mobile/)) ||
@@ -170,40 +178,53 @@ define([
 
         // http://stackoverflow.com/questions/19689715/what-is-the-best-way-to-detect-retina-support-on-a-device-using-javascript
         os.retina = ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 2)) && os.ios;
-        os.retina && classes.push('retina');
+        os.retina && cssClasses.push('retina');
 
+        cssClasses.push(os.tablet ? 'tablet' : (os.mobile ? 'mobile' : 'desktop'));
 
-        classes.push(os.tablet ? 'tablet' : os.mobile ? 'mobile' : 'desktop');
-
-        $html.addClass(classes.join(' '));
+        return {
+            os: os,
+            browser: browser,
+            classes: cssClasses
+        };
     };
 
     var orientation = function() {
         var isLandscape = ($window.height() / $window.width()) < compareRatio;
 
-        $html.addClass('orientation-changing');
+        return {
+            orientation: {
+                landscape: isLandscape,
+                portrait: !isLandscape
+            }
+        };
+    };
 
-        if (isLandscape) {
-            $html.removeClass('portrait').addClass('landscape');
-            orientation.landscape = true;
-            orientation.portrait = false;
-        } else {
-            $html.removeClass('landscape').addClass('portrait');
-            orientation.landscape = false;
-            orientation.portrait = true;
-        }
-
-        $html.removeClass('orientation-changing');
+    var addClasses = function(device, orientation) {
+        device.classes.push(orientation.landscape ? 'landscape' : 'portrait');
+        $html.addClass(device.classes.join(' '));
     };
 
     $window
         .on(orientationEvent, function() {
-            orientation.call($);
+            $.extend($, orientation());
+            $html.toggleClass('portrait landscape');
         });
 
-    detect.call($, ua);
-    orientation.call($);
+    device = detect(ua);
+    currentOrientation = orientation();
 
-    $.__detect = detect;
-    $.__orientation = orientation;
-});
+    addClasses(device, currentOrientation.orientation);
+
+    // bind os, browser, and orientation to $ as top-level properties
+    $.extend($, { os: device.os, browser: device.browser }, currentOrientation);
+
+    // expose for unit testing
+    $.__deckard = {
+        detect: detect,
+        orientation: orientation,
+        addClasses: addClasses
+    };
+
+    return $;
+}));
