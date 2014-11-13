@@ -63,9 +63,11 @@ define([
     };
 
     var detect = function(ua, callback) {
-        var obj = {};
-        $.__detect.call(obj, ua);
-        callback.call(null, obj.os, obj.browser);
+        var detect = $.__deckard.detect(ua);
+        var orientation =  $.__deckard.orientation();
+        $.__deckard.addClasses(detect, orientation.orientation);
+
+        callback.call(null, detect.os, detect.browser);
     };
 
     var hasClasses = function(classes) {
@@ -224,7 +226,7 @@ define([
                         assert.isFalse(!!os.mobile);
                         assert.isTrue(browser.safari);
 
-                        hasClasses('webkit ios ipod webview');
+                        //hasClasses('webkit ios ipod');
 
                         done();
                     })
@@ -313,12 +315,12 @@ define([
                         done();
                     })
                 });
-                it('iOS 5.1 iPad webView', function(done) {
+
+                it('iOS 5.1 iPad', function(done) {
                     detect(UA.iOS_5_1_iPad_webView, function(os, browser) {
                         assert.ok(os.ios);
                         assert.ok(os.ipad);
                         assert.equal('5.1', os.version);
-                        assert.isTrue(browser.webview);
                         assert.isTrue(browser.safari);
 
                         hasClasses('webkit ios ipad safari tablet');
@@ -335,7 +337,6 @@ define([
                         assert.isTrue(os.mobile);
                         assert.isFalse(os.tablet);
                         assert.isTrue(browser.safari);
-                        assert.isFalse(!!browser.webview);
                         assert.isFalse(!!browser.chrome);
                         assert.isFalse(!!browser.firefox);
 
@@ -387,7 +388,6 @@ define([
                         assert.isFalse(!!browser.safari);
                         assert.isTrue(browser.chrome);
                         assert.isFalse(!!browser.firefox);
-                        assert.isFalse(!!browser.webview);
 
                         hasClasses('webkit ios iphone chrome mobile');
 
