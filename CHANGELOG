@@ -1,3 +1,5 @@
+1.0.1
+ - Removing unnecessary Velocity dependency in bower.json
 1.0.0
  - Updating AMD wrapper
  - Refactor of methods inside deckard to decouple functionality
