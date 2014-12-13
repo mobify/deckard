@@ -1,3 +1,5 @@
+1.1.0
+ - Adding isModern check to determine if a browser is considered modern
 1.0.0
  - Updating AMD wrapper
  - Refactor of methods inside deckard to decouple functionality

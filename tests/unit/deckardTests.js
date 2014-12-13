@@ -737,6 +737,18 @@ define([
                     })
                 });
             });
+
+            describe('Modern browsers', function() {
+                it('is a modern browser', function(done) {
+                    detect(UA.iOS_8_0_iPhone, function(os, browser) {
+                        assert.isTrue(browser.isModern);
+
+                        hasClasses('webkit ios iphone safari mobile is-modern-browser');
+
+                        done();
+                    });
+                });
+            });
         });
     });
 });
