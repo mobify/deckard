@@ -4,7 +4,7 @@
     "type" : "git",
     "url" : "https://github.com/mobify/deckard"
   },
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Device OS and Version detection",
   "devDependencies": {
     "chai": "~1.9.0",

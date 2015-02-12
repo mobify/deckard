@@ -162,6 +162,16 @@
         os = $.extend(true, os, _parseVersion(osVersion));
         browser = $.extend(true, browser, _parseVersion(browserVersion));
 
+
+        if ('querySelector' in document &&
+            'addEventListener' in window &&
+            'localStorage' in window &&
+            'sessionStorage' in window &&
+            'bind' in Function) {
+            browser.isModern = true;
+            cssClasses.push('is-modern-browser');
+        }
+
         // Determines if this browser is the Android browser vs. chrome. It's always the
         // Android browser if it's webkit and the version is less than 537
         if (os.android && !browser.chrome && browser.webkit && browser.major < 537) {
