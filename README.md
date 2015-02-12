@@ -1,6 +1,9 @@
 #Deckard
 Device OS and Browser detection.
 
+[![Bower version](https://badge.fury.io/bo/deckard.svg)](http://badge.fury.io/bo/deckard)
+[![Circle CI](https://circleci.com/gh/mobify/deckard.svg?style=shield&circle-token=4fa31dbc4e160e2b19aafb2d5881c617c3ea9b50)](https://circleci.com/gh/mobify/deckard)
+
 ![](http://media.tumblr.com/e0da98f48bf70afdc322f08794a70520/tumblr_inline_n20w2wbjJQ1qzrkdh.gif)
 
 ##Installation
