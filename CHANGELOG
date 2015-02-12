@@ -1,3 +1,5 @@
+1.0.2
+ - Fix orientation detection in Chrome's mobile emulation mode
 1.0.1
  - Removing unnecessary Velocity dependency in bower.json
 1.0.0

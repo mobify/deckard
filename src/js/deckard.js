@@ -208,7 +208,8 @@
     $window
         .on(orientationEvent, function() {
             $.extend($, orientation());
-            $html.toggleClass('portrait landscape');
+            $html.toggleClass('portrait', $.orientation.portrait);
+            $html.toggleClass('landscape', $.orientation.landscape);
         });
 
     device = detect(ua);
