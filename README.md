@@ -10,7 +10,7 @@ Device OS and Browser detection.
 Installation is simple via bower.
 
 ```
-bower install https://github.com/mobify/deckard.git --save
+bower install deckard --save
 ```
 ##Configure with Require.js
 Add the following configuration to your require.js config file.
