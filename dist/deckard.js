@@ -215,12 +215,13 @@
         $html.addClass(device.classes.join(' '));
     };
 
-    $window
-        .on(orientationEvent, function() {
-            $.extend($, orientation());
-            $html.toggleClass('portrait', $.orientation.portrait);
-            $html.toggleClass('landscape', $.orientation.landscape);
-        });
+    var updateOrientation = function() {
+        $.extend($, orientation());
+        $html.toggleClass('portrait', $.orientation.portrait);
+        $html.toggleClass('landscape', $.orientation.landscape);
+    };
+
+    $window.on(orientationEvent, updateOrientation);
 
     device = detect(ua);
     currentOrientation = orientation();
@@ -234,6 +235,7 @@
     $.__deckard = {
         detect: detect,
         orientation: orientation,
+        updateOrientation: updateOrientation,
         addClasses: addClasses
     };
 
